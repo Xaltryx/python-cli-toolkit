@@ -1,0 +1,14 @@
+# Generated output from the scripts
+*_stats.json
+correct_contact_address_*.csv
+wrong_contact_address_*
+filtered_*.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
