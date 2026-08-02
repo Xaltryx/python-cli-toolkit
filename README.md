@@ -1,8 +1,8 @@
 # python-cli-toolkit
 
-A collection of small Python CLI tools for validating, transforming, and analyzing CSV, JSON, text, and file-system data — no external dependencies.
+A collection of small Python CLI tools for validating, transforming, and analyzing CSV, JSON, text, file-system, and system-command data — no external dependencies.
 
-**python-cli-toolkit** is a set of standalone Python scripts built to solve everyday data-wrangling tasks from the command line: validating contact info, filtering and converting CSVs, extracting emails/phones from text, analyzing log files, and inspecting the filesystem. Each script is self-contained, uses only the Python standard library, and can be run independently with `python script.py <args>`.
+**python-cli-toolkit** is a set of standalone Python scripts built to solve everyday data-wrangling and automation tasks from the command line: validating contact info, filtering and converting CSVs, extracting emails/phones from text, analyzing log files, inspecting the filesystem, and running/auditing system commands. Each script is self-contained, uses only the Python standard library, and can be run independently with `python script.py <args>`.
 
 ## Requirements
 
@@ -40,6 +40,14 @@ A collection of small Python CLI tools for validating, transforming, and analyzi
 | `path_checker.py` | Reports whether a given path is a file, folder, or doesn't exist |
 | `Robust_File_Batch_Processor.py` | Word-counts all `.txt` files in a folder, tracks read failures |
 
+### `system_tools/` — Run, audit, and probe system commands
+
+| Script | Description |
+|---|---|
+| `check_tool.py` | Checks whether a CLI tool is installed and reports its version, trying multiple common version flags (`--version`, `version`, `-V`, `-v`) |
+| `command_batch_runner.py` | Runs a batch of shell commands from a text file, cross-platform (Windows/Unix), and writes a JSON report of successes, failures, timeouts, and durations |
+| `list_directory.py` | Cross-platform directory listing (`ls -la` / `dir`), returns output and exit status |
+
 ### `logs/`
 
 | Script | Description |
@@ -65,12 +73,19 @@ Each script is run directly with Python, e.g.:
 ```bash
 python contacts/contact_validator_full.py contacts.csv notes.txt
 python csv_tools/filter_csv_by_age.py people.csv 21
+python system_tools/check_tool.py git
+python system_tools/command_batch_runner.py commands.txt
 python logs/log_analyzer.py server.log
 python misc/calc.py 10 5 multiply
 ```
 
 Run any script without arguments to see its usage message.
 
+## Notes on `system_tools/`
+
+- `command_batch_runner.py` splits each line in the input file on whitespace before running it — commands with quoted arguments containing spaces (e.g. `git commit -m "fix bug"`) are not yet supported and will be split incorrectly.
+- All three scripts use `subprocess.run` with a 10-second timeout and handle `FileNotFoundError` / `TimeoutExpired` explicitly.
+
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE) for full text.
